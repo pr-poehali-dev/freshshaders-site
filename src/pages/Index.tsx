@@ -27,19 +27,23 @@ const Index = () => {
     setIsLoading(true);
     
     try {
-      // Отправка данных через Email.js
-      // Здесь используем публичный сервис для отправки форм Formspree
-      const response = await fetch('https://formspree.io/f/ВАША_ФОРМА_ID', {
+      // Используем сервис ntfy для отправки сообщений в Telegram
+      // Вы можете использовать и другие сервисы, например Telegram Bot API напрямую
+      const response = await fetch('https://ntfy.sh/freshshaders_notification', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Title': 'Новая заявка на шейдеры!',
+          'Tags': 'incoming,form,robot'
         },
-        body: JSON.stringify({ nickname, code })
+        body: JSON.stringify({
+          message: `📥 Новая заявка на шейдеры!\n👤 Никнейм: ${nickname}\n🔑 Код: ${code}\n\n@sarwarC`
+        })
       });
       
       if (response.ok) {
         toast({
-          title: "Успешно!",
+          title: "Успешно отправлено!",
           description: "Шейдеры будут отправлены в течение 24 часов. Спасибо!",
         });
         setNickname("");
